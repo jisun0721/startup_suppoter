@@ -1,0 +1,19 @@
+{% extends 'SupportFrontBundle::layout.html.twig' %}
+{% block stylesheets %}
+    
+    {{ parent() }}
+ {#   <link rel="stylesheet" href="{{asset('bundles/app/css/sgk_index.css')}}" />
+    #}
+{% endblock %}
+
+{% block contents %}
+  {#  {% include 'SupportFrontBundle:Product:check.html.twig' with {'form':'form'} %}#}
+<div class="program_box">
+    <div class="search_box">{{form_start(form)}}{{form_widget(form.keyword)}}{{form_end(form)}}</div>
+    {% include 'SupportFrontBundle:Product:searchview.html.twig' %}    
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{parent()}}
+{% endblock %}

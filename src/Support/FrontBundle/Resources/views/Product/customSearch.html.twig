@@ -1,0 +1,13 @@
+{% extends 'SupportFrontBundle::layout.html.twig' %}
+
+{% block contents %}
+    <div class="program_box">
+    <span class="title_txt"><h1>맞춤 검색</h1></span>
+    <span class="title_txt"><h2>{{search}}</h2></span>
+    {% if userBus == null %}
+        개인 사업정보가 없습니다.<br/>내정보에서 개인 사업 정보를 입력해주세요.
+    {% else %}
+        {% include 'SupportFrontBundle:Product:listview.html.twig' %}
+    {% endif %} 
+    </div>
+{% endblock %}

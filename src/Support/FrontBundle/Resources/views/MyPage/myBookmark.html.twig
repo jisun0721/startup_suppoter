@@ -1,0 +1,64 @@
+{% extends 'SupportFrontBundle::layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block contents %}
+    <div class="program_box">
+        {% if marks == null %}
+            <span class="bold">현재 북마크 된 사업이 없습니다.</span>
+        {% else %}
+<table class="markTable center " bold="1">
+        <tr height = 57>
+            {#<th class="bold td_name">선택</th>#}
+            <th class="bold td_name">행사명</th>
+            <th class="bold td_name">모집날짜</th>
+        </tr>        
+        {%for mark in marks %}
+        <tr height = 100>
+          {# 나중에
+          <td class="td_content">
+                <div class="bookmark_div" >
+                    <img class ="bookmark" src="{{asset("bundles/support/image/star_marked.png")}}" width="50px" height="50px" onclick="pageSwitchMark({{mark.id}},{{mark.id}})">   
+                </div>
+            </td>
+          #}
+            <td class="td_content">
+              <a href ="{{url("product_detail",{id:mark.id})}}"><span>{{mark.eventName}}</span></a>
+            </td>
+            <td class="td_content">
+                <span>
+                {%if mark.recCloseTime == 0 %}
+                    항시
+                {% elseif mark.recStartTime == 0 %}
+                    {{mark.recCloseTime|date("Y/m/d")}}에 마감됨.                   
+                {% else %}
+                    {{mark.recStartTime|date("Y/m/d")}} ~ {{mark.recCloseTime|date("Y/m/d")}}
+                    {% if mark.recCloseTime == date().format('U') %}
+                        <br/>( 마감 임박! )
+                    {% elseif (mark.recCloseTime - date().format('U')) <= 60*60*24 %}
+                        <br/>( 마감까지 남은 기간이 1일 이내 )
+                    {% elseif (mark.recCloseTime - date().format('U')) <= 60*60*24*3 %}
+                        <br/>( 마감까지 남은 기간이 3일 이내 )
+                    {% endif %}
+                {% endif %}
+               </span>
+            </td>
+        </tr>        
+        {% endfor %}
+    </table>            
+        {% endif %}    
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{parent()}}
+        <script>    
+            var addBookAction = "{{url("add_bookmark")}}";
+            var deleteBookAction = "{{url("delete_bookmark")}}";
+            var searchBookAction = "{{url("search_bookmark")}}";
+            var addRepAction = "{{url("add_reply")}}";
+            var deleteRepAction = "{{url("delete_reply")}}";
+            var bookmarkImage = $('.bookmark');
+            var isMarked;
+        </script>
+        <script src="{{asset("bundles/support/js/bookmark.js")}}"></script>
+{% endblock %}

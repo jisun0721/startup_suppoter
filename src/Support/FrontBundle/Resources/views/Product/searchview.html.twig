@@ -1,0 +1,160 @@
+<div>
+    {% if products == null %}        
+        <span class="bold">
+       검색 결과를 찾을 수 없습니다. 
+        </span>
+    {% else %}
+<form class="search" action="" method ="POST">
+    <input id="pager" type="hidden" name="page" value="{{pagedata.page}}">
+    <input id="order" type="hidden" name="order" value="{{pagedata.order}}">
+    <input id="keyword" type="hidden" name="keyword" value={%if pagedata.keyword is defined %} "{{pagedata.keyword}}" {%endif%}>
+</form>
+    
+    {% if isMobile == false %}
+        <table class="list-table">
+            {%for product in products %}  
+            <tr class="{% if product.recStartTime != 0 and product.recCloseTime < date().format('U') %}dead-product{% endif %}">
+                <td class="program_title" colspan ="3">
+                    <a href ="{{url("product_detail",{id:product.id})}}">{{ product.eventName }}</a>
+                </td>        
+                <td>
+
+                </td>
+            </tr>    
+            <tr class="list-tr {% if product.recStartTime != 0 and product.recCloseTime < date().format('U') %}dead-product{% endif %}">    
+                <td>
+                    {{ product.sponsor|slice(0, 20) }}
+                    {% if ( product.sponsor|length) > 20 %}  
+                                ..
+                            {% endif %}              
+
+                </td>
+                <td>     
+                    {% for state in product.state %}
+                        {% if loop.index < 2 %}
+                            {{state}}
+                            {% if (loop.index == 1 )and (loop.index < product.state|length) and (state != "전국") %}  
+                                ..
+                            {% endif %}  
+                        {% endif %}
+                    {% endfor %}     
+                 {#   {% for area in product.area %}
+                        {% if area%100 == 0 %}
+                        {% else %}
+                       ,{{area}}   
+                       {% endif %}
+                    {% endfor %}#}
+                </td>
+                <td>
+                    기간 : 
+                    {%if product.recCloseTime == 0 %}
+                        항시
+                    {% elseif product.recStartTime == 0 %}
+                        {{product.recCloseTime|date("Y/m/d")}}에 마감됨.
+                    {% else %}
+                        {{product.recStartTime|date("Y/m/d")}} ~ {{product.recCloseTime|date("Y/m/d")}}
+                    {% endif %}
+                </td>
+                <td>
+                    조회수 : {{product.readCount}}                   
+                </td>
+            </tr>
+            <tr class="divider"><td colspan="4" style="height: 1px; padding: 0px "></tr>
+        {% endfor %}   
+        </table>
+    {% else %}
+        <div class="mobile-list ">
+            {%for product in products %}  
+                <div class="{% if product.recStartTime != 0 and product.recCloseTime != 0 and product.recCloseTime < date().format('U') %}dead-product{% endif %}">
+                    <a href ="{{url("product_detail",{id:product.id})}}">
+                        <div class="mobile-product-box">
+                            <div class="program_title">
+                                <span>{{ product.eventName }}</span>
+                            </div>
+                            <div>
+                               <span class="program_sponsor"> 
+                                   {{ product.sponsor|slice(0, 20) }}
+                                        {% if ( product.sponsor|length) > 20 %}  
+                                            ..
+                                        {% endif %}              
+                                </span>
+                            </div>      
+                            <div class="program_detail">     
+                                <span>
+                                    지역 : 
+                                    {% for state in product.state %}
+                                        {% if loop.index < 2 %}
+                                            {{state}}
+                                            {% if (loop.index == 1 )and (loop.index < product.state|length) and (state != "전국") %}  
+                                                ..
+                                            {% endif %}  
+                                        {% endif %}
+                                    {% endfor %}  
+                                </span>
+                                <span class="color-ltgray"> | </span>
+                                <span>
+                                    조회수 : {{product.readCount}}
+                                </span>                                          
+                            </div>
+                            <div class="program_detail">  
+                                <span>
+                                    {%if product.recCloseTime == 0 %}
+                                        항시
+                                    {% elseif product.recStartTime == 0 %}
+                                        {{product.recCloseTime|date("Y/m/d")}}에 마감됨.
+                                    {% else %}
+                                        {{product.recStartTime|date("Y/m/d")}} ~ {{product.recCloseTime|date("Y/m/d")}}
+                                    {% endif %}
+                                </span> 
+                            </div>  
+                        </div>
+                    </a>  
+                    <div class="divider"></div> 
+                </div>
+        {% endfor %}   
+        </div>
+    {% endif %}
+{% endif %}
+
+{% if products == null %}       
+{% else %}
+    {% if pagedata.page >= 3 %}
+        <button onclick="SubmitPage({{0}})">1</button> ..
+    {% endif %} 
+    {% if pagedata.page >= 1 %}
+        {% if pagedata.page <= 1 %}
+        <button onclick="SubmitPage({{0}})">1</button>            
+        {% for i in pagedata.page - 1 %}
+            <button onclick="SubmitPage({{i}})">{{i+1}}</button>
+        {% endfor %}
+        {% else %}
+        {% for i in pagedata.page-2 .. pagedata.page - 1 %}
+            <button onclick="SubmitPage({{i}})">{{i+1}}</button>
+        {% endfor %}
+        {% endif%}
+    {% endif %}
+    {{pagedata.page+1}}
+    {% if pagedata.page <= pager - 2 %}
+        {% for i in pagedata.page + 1 .. pagedata.page + 2 %}
+            <button onclick="SubmitPage({{i}})">{{i+1}}</button>
+        {% endfor %}
+    {% elseif pagedata.page <= pager - 1 %}
+         <button onclick="SubmitPage({{pager}})">{{pager+1}}</button>
+    {% endif %}
+    {% if pagedata.page <= pager - 3 %}
+        .. <button onclick="SubmitPage({{pager}})">{{pager+1}}</button>
+    {% endif %}
+{% endif %}
+</div>
+
+{% block javascripts %}
+    <script type="text/javascript">
+    function SubmitPage(page){
+        if(page === null) page = 0;
+        $("#pager").val(page);
+        $(".search").submit();
+    };
+    
+    </script>   
+
+{% endblock %}

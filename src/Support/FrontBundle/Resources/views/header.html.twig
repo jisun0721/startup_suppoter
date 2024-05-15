@@ -1,0 +1,74 @@
+<nav>
+  <div class="header-box"> 
+    <!-- 로고, 즐겨찾기, 검색 아이콘과 로그인 버튼 들어감. -->  
+      <a href="{{url('main_index')}}">
+          {% if isApp == false and isMobile == true %}
+              <div class="logo-icon float-left" style= "background-image: url({{asset('bundles/support/image/logo_icon.png')}})"></div>
+          {% else %}
+              <div class="logo-banner float-left" style= "background-image: url({{asset('bundles/support/image/logo_banner_1.png')}})"></div>
+          {% endif %}
+      </a>
+      <div class="float-right inline-box">
+            <a href="{{url('search_page')}}"><div class="search icon" style= "background-image: url({{asset('bundles/support/image/search_icon.png')}})"></div></a>
+        {% block login %}
+            <div class="login">
+        {% if getControllerName() != "login" %}
+                {% if app.user == null %}
+                    <a class="login_btn" href="{{url('login_page')}}">
+                        <div class="infoIcon" style=" background-image: url({{asset("bundles/support/image/login_btn.png")}})"></div>
+                    </a>
+        <!-- 로그인 했을 경우 나타나는 드랍다운 -->
+                {% else %}
+                    <div id="infoBtn" class="infoIcon" style=" background-image: url({{asset("bundles/support/image/myInfoIcon.png")}})"></div>
+                    <div id="infoPopup">   
+                        {% if isApp == false and isMobile == true %}
+                            <div class="login_dropdown float-right">
+                                <div class="user_text">
+                                    <span class="user_info white">
+                                    안녕하세요! <br/></span>
+                                    <span class="user_info white">
+                                    {{app.user.username}}님   
+                                    </span>
+                                </div>
+                                <div class="dropdown_menu slide_menu">   
+                                    <div class="divider"></div>                             
+                                    <div class="minW minH30 margin-top"><a href="{{url("mypage_index")}}"><span>내 정보</span></a>
+                                    </div>
+                                    <div class="divider"></div>                           
+                                    <div class="minW minH30 margin-top"><a href="{{url("bookmark_page")}}"><span>내 북마크</span></a></div>                            
+                                    <div class="divider"></div>                                
+                                    <div class="minW minH30 margin-top"><a href="{{url("before_logout")}}"><span>로그아웃</span></a></div>
+                                    <div class="divider"></div>                                  
+                                </div>
+                            </div>
+                        {% else %}
+                            <table class="login_dropdown float-right">
+                            <tr><td ><span class="user_info white">
+                            안녕하세요! <br/></span><span class="user_info white">
+                            {{app.user.username}}님   
+                            </span>
+                            </td></tr>
+                            <tr><td>
+                            <div class="dropdown_menu center">   
+                                <div class="divider"></div>                             
+                                <div class="minW minH30 margin-top"><a href="{{url("mypage_index")}}">내 정보</a>
+                                </div>
+                                <div class="divider"></div>                           
+                                <div class="minW minH30 margin-top"><a href="{{url("bookmark_page")}}">내 북마크</a></div>                            
+                                <div class="divider"></div>                                
+                                <div class="minW minH30 margin-top"><a href="{{url("before_logout")}}">로그아웃</a></div>
+                                <div class="divider"></div>                                  
+                            </div></td>
+                            </tr>
+                        </table>                                
+                            {% endif %}
+                    </div>        
+                {% endif %}                  
+          {% endif %}
+        {% endblock %}     
+            </div>
+        </div>    
+    <!-- /.navbar-collapse --> 
+  </div>
+  <!-- /.container-fluid --> 
+</nav>

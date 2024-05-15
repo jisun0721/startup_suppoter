@@ -1,0 +1,238 @@
+{% extends 'SupportFrontBundle::layout.html.twig' %}
+
+{% block stylesheets %}	
+    {{ parent()}}
+{#    <link rel="stylesheet" href="{{asset('bundles/support/css/product/detail.css')}}" />
+#}
+{% endblock %}
+
+{% block contents %}
+<div class="inline-box vertical-middle" >
+    <table class="evnet-title">
+        <tr>
+            <td id="eventName" >
+                <div class="event-text bold">{{item.eventName}}</div>  
+            </td>
+            <td>
+                {% if app.user == null%}
+                <div class="bookmark_div">
+                    <img class ="bookmark" src="{{asset("bundles/support/image/star_unmarked.png")}}" width="50px"    height="50px"  onclick="messegeMark()">
+                </div>
+                {% else %}
+                    <div class="bookmark_div" >
+                    <img class ="bookmark" src="{{asset("bundles/support/image/star_unmarked.png")}}" width="50px"    height="50px" onclick="switchMark({{item.id}})">   
+                    </div>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <span class="text-right">조회수 : {{item.readCount}}</span>
+            </td>
+        </tr> 
+    </table>
+</div>  
+<div class="contentTable text-left"><table>
+    <tr>
+        <td  class="td_name">주최 기관</td>
+        <td  colspan="3"><div id="sponsorName">{{item.sponsor}}</div></td>
+    </tr>
+    <tr>
+        <td  class="td_name">모집 기간</td>
+        <td ><div id="recTime">
+            {%if item.recCloseTime == 0 %}
+                항시
+            {% elseif item.recStartTime == 0 %}
+                {{item.recCloseTime|date("Y/m/d")}}에 마감됨.
+            {% else %}
+                {{item.recStartTime|date("Y/m/d")}} ~ {{item.recCloseTime|date("Y/m/d")}}
+            {% endif %}
+        </div></td>        
+        <td  class="td_name">행사 유형</td>
+        <td ><div id="eventType" >
+                {% for eventType in item.eventType %}
+                    {{eventType}}
+                    {% if loop.index != item.eventType|length %},{% endif %}
+                {% endfor %}
+            </div></td>
+    </tr>
+    <tr>
+        <td  class="td_name">요약</td>
+        <td  colspan="3"><div id="summary">{{item.summary|nl2br}}</div></td>
+    </tr>
+    <tr>
+        <td  class="td_name">주요 대상</td>
+        <td  colspan="3">
+            <div id="mainTarget" >
+            {% if item.mainTarget == "0" %}
+                -
+            {%else%}
+                {{item.mainTarget|nl2br}}
+            {% endif %}                
+                
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td  class="td_name">업종</td>
+        <td  colspan="3"><div id="businessType">
+            {% for type in item.businessType %}
+                {% if type == 0 %}
+                    분류되지 않음.
+                {% else %}
+                    {{type}}차산업
+                        {% if loop.index != item.businessType|length %},{% endif %}
+                {% endif %}
+            {% endfor %}
+            </div></td>
+    </tr>
+    <tr>
+        <td  class="td_name">나이 제한</td>
+        <td >
+        {% if item.ageMax == 0 %}
+            제한 없음
+        {% elseif item.ageMax == 99 %}
+            {{item.ageMin}}세 이상
+        {% elseif item.ageMin == 1 %}
+            {{item.ageMax}}세 이하    
+        {% else %}
+            {{item.ageMin}}세 ~ {{item.ageMax}}세             
+        {% endif %}
+        </td>
+        <td  class="td_name">경력 제한</td>
+        <td >
+            {% if item.careerMax == 0 %}
+                제한 없음
+            {% else %}
+                {{item.careerMin}}년 ~ {{item.careerMax}}년
+            {% endif %}
+        </td>
+    <tr>
+        <td  class="td_name">보상 유형</td>
+        <td  colspan="3">
+            <div id="rewardType" >
+                {%for reward in item.rewardType %}
+                    {{reward}}
+                {%endfor%}
+                </div>
+        </td>
+    </tr>
+    <tr>
+        <td  class="td_name">최대 지원금액</td>
+        <td  colspan="3">
+             <div id="assetSize">
+            {% if item.assetSize > 0 %}
+               {{item.assetSize}} 원 
+            {%else%}
+                -
+            {% endif %}
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td  class="td_name">중복 수혜 가능 여부</td>
+        <td  colspan="3">
+            {% if item.overlapType == 0 %}
+                -
+            {% elseif item.overlapType == 1 %}
+                가능
+            {% elseif item.overlapType == 2 %}
+                불가능
+            {% elseif item.overlapType == 3 %} 
+                조건적으로 가능
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td  class="td_name">요구사항</td>
+        <td  colspan="3"><div id="requirement">
+                {% if item.requirement == "0" %}
+                    -
+                {% else %}
+                   {{item.requirement|nl2br}}
+                {% endif %}  
+            </div></td> 
+    </tr>
+    <tr>
+        <td  class="td_name">지역</td>
+        <td  colspan="3"><div id="state"> 
+                {%for state in item.state %}                
+                    {{state}}
+                {% endfor %}            
+                {%for area in item.area %}  
+                    {% if area == "0" %}
+                    {% else %}
+                        {{area|areaCode}}
+                    {% endif %} 
+                {% endfor %}          
+                
+            </div></td> 
+    </tr>
+    <tr>
+        <td  class="td_name">행사 링크</td>
+        <td  colspan="3"><div id="url" ><a href="{{item.oriUrl}}" target="_blank" >{{item.oriUrl|nl2br}}</a></div></td>
+    </tr>    
+    <tr>
+        <td  class="td_name">문의처</td>
+        <td  colspan="3">
+            <div id="enquiry">
+                {% if item.enquiry == "0" %}
+                    -
+                {% else %}
+                    {{item.enquiry|nl2br}}
+                {% endif %}       
+            </div>
+        </td> 
+    </tr>
+    <tr>
+        <td colspan="4" ><div id="detail">{{item.detail|nl2br}}</div></td>
+    </tr>    
+</table>
+</div>
+<div id="adDetail" class="ad">
+    {% if isMobile == false %}
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- AD_DETAIL_PC -->
+        <ins class="adsbygoogle"
+             style="display:inline-block;width:728px;height:90px"
+             data-ad-client="ca-pub-2134771261384258"
+             data-ad-slot="2294287527"></ins>
+        <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    {% else %}
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- AD_DETAIL_MOBILE -->
+        <ins class="adsbygoogle"
+             style="display:inline-block;width:320px;height:50px"
+             data-ad-client="ca-pub-2134771261384258"
+             data-ad-slot="3771020721"></ins>
+        <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    {% endif %}
+</div>    
+            {% include "SupportFrontBundle:Reply:index.html.twig" %}
+{% endblock %}
+
+{% block javascripts %}	
+    {{ parent()}}    
+    <script>
+        var addBookAction = "{{url("add_bookmark")}}";
+        var deleteBookAction = "{{url("delete_bookmark")}}";
+        var searchBookAction = "{{url("search_bookmark")}}";
+        var addRepAction = "{{url("add_reply")}}";
+        var deleteRepAction = "{{url("delete_reply")}}";
+        var bookmarkImage = $('.bookmark');
+        var isMarked;
+    </script>   
+    <script src="{{asset("bundles/support/js/bookmark.js")}}"></script>
+    <script src="{{asset("bundles/support/js/reply.js")}}"></script>
+    <script>
+    {% if app.user != null %} 
+            checkMarked({{item.id}});
+    {% endif %}
+    </script>
+
+{% endblock %}
+

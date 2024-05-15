@@ -1,0 +1,88 @@
+<nav>
+    <div id="navigation">
+{% if isMobile == false %}
+<!-- 웹일 경우 -->    
+        <div class="nav-font bold nav-margin white"><a href="{{url('all_page')}}">전체</a></div>
+        <div class="nav-font bold nav-margin white"><a href="{{url('popular_page')}}">인기</a></div>
+        <div class="nav-font bold nav-margin white"><a href="{{url('duedate_page')}}">마감임박</a></div>
+        {% if app.user != null %}
+            <div class="nav-font bold nav-margin white">추천
+                    <div class="nav-font white"><a href="{{url('custom_search', {id : 0})}}">전체</a></div>
+                    <div class="nav-font white"><a href="{{url('custom_search', {id : 1})}}">나이</a></div>
+                    <div class="nav-font white"><a href="{{url('custom_search', {id : 2})}}">업종</a></div>
+                    <div class="nav-font white"><a href="{{url('custom_search', {id : 3})}}">지역</a></div>
+            </div>
+        {% endif %}
+{% else %}
+<!-- 앱일 경우 -->
+<table>
+    <tr>
+        <td>
+            <div class="nav-font bold white"><a href="{{url('all_page')}}">전체</a></div>
+        </td>
+        <td>
+            <div class="nav-font bold white"><a href="{{url('popular_page')}}">인기</a></div>
+        </td>
+        <td>
+            <div class="nav-font bold white"><a href="{{url('duedate_page')}}">마감임박</a></div>
+        </td>
+        {% if app.user != null %}
+        <td>
+            <div id="subNav_button" class="nav-font bold white" onclick="toggleSubNav()">추천</div>
+        </td>
+        {% endif %}          
+    </tr>
+    <tr>
+        <td>
+            <div id="navAll" ></div>
+        </td>
+        <td>
+            <div id="navPop" ></div>
+        </td>
+        <td>
+            <div id="navDue"></div>        
+        </td>
+        {% if app.user != null %}
+        <td>
+           <div id="navCus"></div>
+        </td>
+        {% endif %}          
+    </tr>    
+</table>        
+        {% if (app.user != null) %}
+            <div id="subNav">
+                <table  class="nav-font white">
+                    <tr>
+                        <td>
+                            <div id="subNavAll" class="sub-nav-font white"><a href="{{url('custom_search', {id : 0})}}">전체</a></div>
+                        </td>
+                        <td>
+                            <div id="subNavAge"  class="sub-nav-font white"><a href="{{url('custom_search', {id : 1})}}">나이</a></div>
+                        </td>
+                        <td>
+                            <div id="subNavBus" class="sub-nav-font white"><a href="{{url('custom_search', {id : 2})}}">업종</a></div>
+                        </td>
+                        <td>
+                            <div id="subNavReg"  class="sub-nav-font white"><a href="{{url('custom_search', {id : 3})}}">지역</a></div>
+                        </td>
+                    </tr>
+{#                    <tr>
+                        <td>
+                            <div id="subNavAll" class="subSelectbar"></div>                            
+                        </td>
+                        <td>
+                           <div id="subNavAge" class="subSelectbar"></div>
+                        </td>
+                        <td>
+                            <div id="subNavBus" class="subSelectbar"></div>
+                        </td>
+                        <td>
+                           <div id="subNavReg" class="subSelectbar"></div> 
+                        </td>
+                    </tr> #}                   
+                </table> 
+            </div>
+        {% endif %}    
+{% endif %}
+    </div>
+</nav>

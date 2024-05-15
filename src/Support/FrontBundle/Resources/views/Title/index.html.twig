@@ -1,0 +1,20 @@
+{% extends 'SupportFrontBundle::layout.html.twig' %}
+{% block stylesheets %}
+   
+    {{ parent() }}
+ {#    <link rel="stylesheet" href="{{asset('bundles/app/css/sgk_index.css')}}" />
+    #}
+{% endblock %}
+{% block header %}
+
+{% endblock %}
+{% block contents %}
+    <div class="container">
+        <a href = "{{url("login_page")}}">
+            <img src ="{{asset('bundles/support/image/title/jokerforgeLogo.png')}}"/>
+            <!--<div id = "logo_img" alt = "support for you"  style="background-image: url({{asset('bundles/support/image/title/jokerforgeLogo.png')}});">
+            </div>-->
+        </a>
+
+    </div>
+{% endblock %}

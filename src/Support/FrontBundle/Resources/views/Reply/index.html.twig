@@ -1,0 +1,23 @@
+<div class="reply">
+    <h3>덧글</h3>
+        {% for reply in replies %}
+            <div>
+                작성자 {{reply.userid.username}}
+            </div>
+            <div>
+                작성 시각{{reply.created|date("y년m월d일 H:i")}}
+            </div>
+            <div>
+                제목{{reply.title}}
+            </div>
+            <div>
+                내용{{reply.content}}
+            </div>
+            <div>
+                <img id="delete" height="50" width="50" src="" alt="삭제" onclick="deleteReply({{reply.id}})">
+            </div>
+        {% endfor %}
+                
+        {% include "SupportFrontBundle:Reply:addReply.html.twig"  with {'id' : item.id} %}        
+</div>        
+

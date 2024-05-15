@@ -1,0 +1,18 @@
+<div id="loginBg" class="background" {#style="background-image : url({{asset("bundles/kingdom/image/login/login_background.jpg")}})"#}>
+    <div id="gradation" class="background" {#style="background-image : url({{asset("bundles/kingdom/image/login/gradation.png")}})"#}>
+        <div id="textBox">
+            <span id="watchme"></span><br>
+            <span id="welcome">환영합니다.</span> <br><br>
+            <span>별도의 회원가입 없이 네이버, 페이스북 아이디로 로그인이 가능합니다.</span<br>
+        </div>
+    </div>
+      
+    <div id="loginPop" class="popup loginPopup">
+            <div class="loginApiBtn" style="background-image: url({{asset('bundles/support/image/login/login_naver_btn.PNG')}})" onclick = "naverApi.naverLogin()">
+            </div>
+            <a href="{{login.facebookUrl}}" >
+                <div class="loginApiBtn" style="background-image: url({{asset('bundles/support/image/login/login_facebook_btn.png')}})">
+            </div></a>
+            
+    </div>    
+</div>  

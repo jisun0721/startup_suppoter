@@ -1,0 +1,25 @@
+{% extends 'SupportFrontBundle::layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block contents %}
+    {% if isMobile == false %}
+        <div class="program_box">      
+            {% include 'SupportFrontBundle:MainPage:webIndex.html.twig' %}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent()}}
+    <script type="text/javascript">
+        var mainUrl = "{{url("main_index")}}";
+        $(document).ready(function(){
+            if($.cookie('popup') != 'hidden'){
+                window.open("{{ url('notice_index') }}","공지사항"," fullscreen = yes, titlebar = no, toolbar =no, menubar =no, resizable=no, location = no");
+            }
+         });
+    </script>   
+
+{% endblock %}

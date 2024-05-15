@@ -1,0 +1,11 @@
+services:
+    naverapi:
+        class: Support\FrontBundle\Services\NaverAPI
+        arguments: ["@api_caller"]
+    support.twig.support_extension:
+        class: Support\FrontBundle\Twig\SupportExtension
+#        arguments : [ "@request" ]
+        calls :
+            - [setRequest, ["@?request="]]
+        tags:
+            - { name: twig.extension }    

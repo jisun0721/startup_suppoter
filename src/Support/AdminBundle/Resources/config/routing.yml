@@ -1,0 +1,13 @@
+support_admin_homepage:
+    path:     /
+    defaults: { _controller: SupportAdminBundle:Board:index }
+
+info:
+    prefix : /info
+    type : annotation
+    resource : "@SupportAdminBundle/Controller/InfoController.php"
+    
+borad:
+    prefix : /
+    type : annotation
+    resource : "@SupportAdminBundle/Controller/BoardController.php"

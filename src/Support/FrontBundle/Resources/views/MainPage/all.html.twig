@@ -1,0 +1,7 @@
+{% extends 'SupportFrontBundle::layout.html.twig' %}
+{% block contents %}
+<div class="last_minute_program program_box">
+    <span class="title_txt"><h1>전체</h1></span>   
+    {% include 'SupportFrontBundle:Product:listview.html.twig' %}            
+</div>  
+{% endblock %}

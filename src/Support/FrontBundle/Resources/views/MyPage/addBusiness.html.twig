@@ -1,0 +1,40 @@
+{% extends 'SupportFrontBundle::layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block contents %}
+    <div class="program_box">
+    <h1>사업정보 추가</h1>
+    <div>
+    {{form_start(form)}}
+    <div class="form-input">{{form_label(form.asset_size)}} {{form_widget(form.asset_size)}}</div>
+    <div class="form-input">{{form_label(form.business_type)}} {{form_widget(form.business_type)}}</div>
+    <div class="form-input">{{form_label(form.state)}} {{form_widget(form.state)}}
+          {{form_label(form.area)}} {{form_widget(form.area)}}</div>
+    {{form_end(form, {'action': path('add_business'), 'method':'POST'}) }}
+    </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var $state = $('#form_state');
+        
+         $state.change(function(){
+            var $form = $(this).closest('form');            
+            var data = {};
+            data[$state.attr('name')] = $state.val();
+           
+            $.ajax({
+                url : '{{url("forms")}}',
+                type : $form.attr('method'),
+                data : data ,
+                success: function(html){
+                    $('#form_area').replaceWith( $(html).find('#form_area') );
+                }
+            });
+        });
+    </script>
+{% endblock %}

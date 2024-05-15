@@ -1,0 +1,81 @@
+<div>
+<form class="search" action="" method ="POST">
+    정렬<select name ="order" onChange="Submit()" >     
+            <option value="eventName">행사명</option>
+            <option value="sponsor">주최자</option>
+            <option value="state">도시</option>      
+        </select>    
+    <input id="pager" type="hidden" name="page" value="0">
+</form>
+
+<div id="productList">
+    <ul>
+        {%for product in products %}
+            <br/>
+            <div class="productTable" >
+                <li>
+                <table border="1">
+                    <tr></tr>
+                    <tr>
+                        <td>행사명</td>
+                        <td>
+                            <a href ="{{url("product_detail",{id:product.id})}}">{{ product.eventName }}</a>
+                        </td>            
+                    </tr>    
+                    <tr>
+                        <td>주최자</td>
+                        <td>
+                            {{ product.sponsor }}
+                        </td>
+                    </tr>    
+                    <tr>
+                        <td>대상 지역</td>      
+                        <td>
+                            {{product.state}}, 
+                            {% for area in product.area %}
+                                {{area}},
+                            {% endfor %}
+                        </td>
+                    </tr>         
+                    <tr>   
+                        <td>주요대상</td>       
+                        <td>
+                            {{product.mainTarget}}
+                        </td>
+                    </tr>            
+                    <tr>
+                        <td>모집날짜</td>
+                        <td>
+                            {%if product.recStartTime == 0 %}
+                                항시
+                            {% else %}
+                                {{product.recStartTime}} ~ {{product.recCloseTime}}
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>
+                </li>
+            </div>
+        {% endfor %}   
+    </ul>
+</div>
+{% for i in 0..pager %}            
+    <button onclick="Submit({{i}})">{{i+1}}</button>
+{% endfor %}        
+
+{% block javascripts %}
+{#{{ parent()}}#}
+    <script type="text/javascript">
+    
+    function Submit(page){
+        if(page === null) page = 0;
+        $("#pager").val(page);
+        $(".search").submit();
+    }
+    $(document).ready(function(){
+            $("#order").val({{order}});     
+    })         
+    </script>   
+
+{% endblock %}
+</div>

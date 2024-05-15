@@ -1,0 +1,121 @@
+<div id="last_minute_program" class="top_program">
+    <span class="title_txt"><h1>전체</h1></span>   
+    <table class="main-list-table list-table ">
+    {%for product in aProducts %}    
+        <tr>
+            <td class="program_title">
+                <a href ="{{url("product_detail",{id:product.id})}}">{{ product.eventName }}</a>
+            </td>        
+            <td>
+                조회수 : {{product.readCount}}
+            </td>
+        </tr>    
+    {% endfor %}   
+    </table>          
+</div> 
+<div id="popular_program" class="mid_program">
+    <span class="title_txt"><h1>인기</h1></span> 
+    <table class="list-table main-list-table">
+    {%for product in pProducts %}    
+        <tr>
+            <td  class="program_title">
+                <a href ="{{url("product_detail",{id:product.id})}}">{{ product.eventName }}</a>
+            </td>        
+            <td>
+                조회수 : {{product.readCount}}
+            </td>
+        </tr>
+    {% endfor %}   
+    </table>  
+</div>
+<div id="duedate_program" class="mid_program">
+    <span class="title_txt"><h1>마감 임박</h1></span> 
+
+    <table class="list-table main-list-table">
+    {% if dProducts == null %}
+        <tr>
+            <td colspan="2">
+                마감이 2주 이내인 사업이 없습니다.            
+            </td>
+        </tr>     
+    {% endif %}            
+    {%for product in dProducts %}    
+         <tr >
+            <td class="program_title" colspan ="3">
+                <a href ="{{url("product_detail",{id:product.id})}}">{{ product.eventName }}</a>
+            </td>        
+            <td>
+                조회수 : {{product.readCount}}
+            </td>
+        </tr>
+    {% endfor %}   
+    </table>   
+</div>
+{% if app.user!= null %}
+    <div id="age_search" class="mid_program">        
+    <span class="title_txt"><h2>맞춤 추천 - 나이</h2></span>         
+    <table class="list-table main-list-table">
+    {% if userAProducts == null %}
+        <tr>
+            <td colspan="2">
+        검색 결과가 없습니다.           
+            </td>
+        </tr>     
+    {% endif %}           
+        {%for product in userAProducts %}    
+        <tr >
+            <td class="program_title" colspan ="3">
+                <a href ="{{url("product_detail",{id:product.id})}}">{{ product.eventName }}</a>
+            </td>        
+            <td>
+                조회수 : {{product.readCount}}
+            </td>
+        </tr>
+        {% endfor %}   
+        </table>          
+    </div>
+    <div id="business_type" class="mid_program">
+    <span class="title_txt"><h2>맞춤 추천 - 업종</h2></span>  
+        <table class="list-table main-list-table"> 
+        {% if userBProducts == null %}
+            <tr>
+                <td colspan="2">
+                    검색 결과가 없습니다.           
+                </td>
+            </tr>     
+        {% endif %}        
+       {%for product in userBProducts %}    
+        <tr>
+            <td class="program_title" colspan ="3">
+                <a href ="{{url("product_detail",{id:product.id})}}">{{ product.eventName }}</a>
+            </td>        
+            <td>
+                조회수 : {{product.readCount}}
+            </td>
+        </tr>
+       {% endfor %}   
+       </table>         
+    </div>   
+    <div id="region" class="mid_program">
+    <span class="title_txt"><h2>맞춤 추천 - 지역</h2></span>    
+        <table class="list-table main-list-table">
+        {% if userRProducts == null %}
+            <tr>
+                <td colspan="2">
+                    검색 결과가 없습니다.           
+                </td>
+            </tr>     
+        {% endif %}              
+        {%for product in userRProducts %}    
+        <tr >
+            <td class="program_title" colspan ="3">
+                <a href ="{{url("product_detail",{id:product.id})}}">{{ product.eventName }}</a>
+            </td>        
+            <td>
+                조회수 : {{product.readCount}}
+            </td>
+        </tr>
+        {% endfor %}   
+        </table>          
+    </div>
+{% endif %}

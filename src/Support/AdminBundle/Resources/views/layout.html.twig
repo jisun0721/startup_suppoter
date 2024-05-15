@@ -1,0 +1,34 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}창업지원 관리자페이지{% endblock %}
+{% block stylesheets %}
+   {# <link rel="stylesheet" href="{{asset('bundles/kingdom/css/common.css')}}" />#}
+{#    {{ parent()}}#}
+<style type='text/css'>
+    @font-face{
+	font-family: "Nanum Gothic";
+	src: url('{{asset("bundles/kingdom/css/fonts/NanumGothic.eot")}}');
+	src: url('{{asset("bundles/kingdom/css/fonts/NanumGothic.eot?#iefix")}}') format('embedded-opentype'),
+	url('{{asset("bundles/kingdom/css/fonts/NanumGothic.woff")}}') format('woff'),
+	url('{{asset("bundles/kingdom/css/fonts/NanumGothic.ttf")}}') format('truetype');
+	url('{{asset("bundles/kingdom/css/fonts/NanumGothic.svg#NanumGothic")}}') format('svg')
+	src: local(※), url('{{asset("bundles/kingdom/css/fonts/NanumGothic.woff")}}') format('woff');
+}
+</style>
+{% endblock %}
+
+{% block body %}
+<div id="contents">
+    {% block header %}
+    {% endblock %}
+    {% block contents %}
+
+    {% endblock %}
+    {% block footer %}
+    {% endblock %}
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{#        {{ parent()}}    #}
+{% endblock %}

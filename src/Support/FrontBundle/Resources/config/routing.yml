@@ -1,0 +1,49 @@
+support_front_homepage:
+    path:     /
+    defaults: { _controller: SupportFrontBundle:MainPage:index }
+
+login:
+    prefix : /login/
+    type : annotation
+    resource : "@SupportFrontBundle/Controller/LoginController.php"
+
+login_check:
+    pattern : /login_check
+
+logout :
+    pattern : /logout
+
+mypage:
+    prefix : /my/
+    type : annotation
+    resource : "@SupportFrontBundle/Controller/MyPageController.php"
+
+product:
+    prefix : /product/
+    type : annotation
+    resource : "@SupportFrontBundle/Controller/ProductController.php"
+    
+main:
+    prefix : /
+    type : annotation
+    resource : "@SupportFrontBundle/Controller/MainPageController.php"
+    
+bookmark:
+    prefix : /mark/
+    type : annotation
+    resource : "@SupportFrontBundle/Controller/BookmarkController.php"    
+    
+form:
+    prefix : /forms
+    type : annotation
+    resource : "@SupportFrontBundle/Controller/FormsController.php"
+    
+push:
+    prefix : /push
+    type : annotation
+    resource : "@SupportFrontBundle/Controller/PushController.php"
+
+notice:
+    prefix : /notice
+    type : annotation
+    resource : "@SupportFrontBundle/Controller/NoticeController.php"

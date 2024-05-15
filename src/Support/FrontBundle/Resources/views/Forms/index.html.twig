@@ -1,0 +1,31 @@
+{% block contents %}
+    <div>
+    {{form_start(form)}}
+    <div>{{form_label(form.state)}} {{form_widget(form.state)}}
+        {{form_label(form.area)}} {{form_widget(form.area)}}</div>
+    {{form_end(form, {'action': path('forms'), 'method':'POST'}) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{asset('/bundles/support/js/jquery-2.1.4.min.js')}}" type="text/javascript"></script>
+    <script type="text/javascript" src="{{asset("bundles/support/js/common.js")}}"></script>
+    <script>
+        var $state = $('#form_state');
+        
+         $state.change(function(){
+            var $form = $(this).closest('form');            
+            var data = {};
+            data[$state.attr('name')] = $state.val();
+           
+            $.ajax({
+                url : '{{url("forms")}}',
+                type : $form.attr('method'),
+                data : data ,
+                success: function(html){
+                    $('#form_area').replaceWith( $(html).find('#form_area') );
+                }
+            });
+        });
+    </script>
+{% endblock %}

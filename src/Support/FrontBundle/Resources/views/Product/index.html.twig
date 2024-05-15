@@ -1,0 +1,29 @@
+{% extends 'SupportFrontBundle::layout.html.twig' %}
+{% block stylesheets %}
+  
+    {{ parent() }}
+{#      <link rel="stylesheet" href="{{asset('bundles/app/css/sgk_index.css')}}" />
+    #}
+{% endblock %}
+
+{% block contents %}       
+    <div class="attention_window">
+        <span>이 앱은 국가의 지원 프로그램을 참고하는 용으로만 사용하여 주세요.</span><br/>
+        <span></span>
+    </div>
+    <br><a href ="{{url("search_page")}}">맞춤 검색</a>    
+    <div class="ongoing_program">
+       <span class="title_txt"><h1>진행중인 지원 프로그램</h1></span>
+        {% include 'SupportFrontBundle:Product:listview.html.twig' %}    
+    </div>
+       
+    <div class="last_minute_program">
+        <span class="title_txt"><h1>마감직전 프로그램</h1></span>
+        {% include 'SupportFrontBundle:Product:listview.html.twig' %}          
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock  %}

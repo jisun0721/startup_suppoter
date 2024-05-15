@@ -1,0 +1,31 @@
+<div class="reply">
+        {% for reply in replys %}
+            <div>
+                작성자 {{reply.userid.username}}
+            </div>
+            <div>
+                작성 시각{{reply.created|date("y년m월d일 H:i")}}
+            </div>
+            <div>
+                내용{{reply.content}}
+            </div>
+            <div>
+                <img id="delete" height="50" width="50" src="" alt="삭제" onclick="deleteReply({{reply.id}})">
+            </div>
+        {% endfor %}
+    
+    <div>
+        {{form_start(form)}}
+        {{form_widget(form)}}
+        {{form_end(form, {'action': path('product_detail',{id:item.id}), 'method':'POST'})}}
+    </div>
+</div>        
+
+{% block javascripts %}	
+    {{ parent()}}    
+    <script>
+        var deleteRepAction = "{{url("delete_reply")}}";
+    </script>
+    <script src="{{asset("bundles/support/js/reply.js")}}"</srcipt>
+{% endblock %}
+

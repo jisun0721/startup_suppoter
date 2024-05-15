@@ -1,0 +1,7 @@
+.idea
+.vscode
+/composer.phar
+AppBundle
+vendor
+app
+web
